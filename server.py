@@ -7,11 +7,14 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 
+TAG_TITLE = "PZPZlf ssJ7i B5dxMb"
+TAG_META = "iAIpCb PZPZlf"
+
 
 def get_title(html):
     soup = BeautifulSoup(html, 'html.parser')
     
-    div = soup.find('div', class_=tag_title)
+    div = soup.find('div', class_=TAG_TITLE)
     
     title = None
     if div:
@@ -22,7 +25,7 @@ def get_title(html):
 def get_meta(html):
     soup = BeautifulSoup(html, 'html.parser')
     
-    div = soup.find('div', class_=tag_year)
+    div = soup.find('div', class_=TAG_META)
     spans = div.find_all('span')
     
     year, genre, runtime = None, None, None
