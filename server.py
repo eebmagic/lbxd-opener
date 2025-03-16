@@ -25,8 +25,11 @@ def get_title(html):
 def get_meta(html):
     soup = BeautifulSoup(html, 'html.parser')
     
-    div = soup.find('div', class_=TAG_META)
-    spans = div.find_all('span')
+    try:
+        div = soup.find('div', class_=TAG_META)
+        spans = div.find_all('span')
+    except AttributeError:
+        return None
     
     year, genre, runtime = None, None, None
     if div:
