@@ -1,9 +1,9 @@
+from flask import Flask, request, jsonify
 from bs4 import BeautifulSoup
-import sys
+
 import requests
 import re
-from flask import Flask, request, jsonify
-from flask_cors import CORS
+import sys
 
 app = Flask(__name__)
 
