@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 import sys
 import requests
 import re
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, status
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -76,9 +76,18 @@ def find_url():
     print(f'Processing request ...')
     html = request.json.get('html-page')
     print(f'Got html payload of char len: {len(html):,}')
+    if not html or len(html) == 0:
+        return "No html-page arg found in payload", status.HTTP_400_BAD_REQUEST
+
     meta = get_meta(html)
+    if not meta:
+        return "Could not infer metadata from payload", 500
+
     candidate_urls = infer_urls(meta)
     url = check_urls(candidate_urls)
+    if not url:
+        return f"None of the urls appeared valid. Tried these: {urls}", 500
+
     print(f'Returning: {url}\n')
 
     return url
