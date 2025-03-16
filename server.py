@@ -66,9 +66,15 @@ def infer_urls(meta):
 
 
 def check_urls(urls):
+    pattern = r'\"https:\/\/boxd\.it\/[a-zA-Z0-9]+\"'
     for url in urls:
         response = requests.get(url)
         if response.ok:
+            matches = re.findall(pattern, response.text)
+            print(f'found all boxd links: ', matches)
+
+            if len(matches) > 0:
+                return matches[0][1:-1]
             return url
 
     return None
